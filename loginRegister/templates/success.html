@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Wall</title>
+    <style>
+        .nav {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        textarea {
+            resize: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nav">
+        <h1>The Wall</h1>
+        <h1>Welcome, {{this_user.first_name}} {{this_user.last_name}}</h1>
+        <a href="/logout/">Logout</a>
+    </div>
+
+    <h3>Post a message</h3>
+    <form action="postMessage/" method="post">
+        {% csrf_token %}
+        <textarea name="message" rows="8" cols="50"></textarea><br>
+        <input type="submit" value="Post a Message"><br><br>
+    </form>
+
+    {% for each_message in all_messages %}
+    <h3>
+        Posted Message {{each_message.User.first_name}} {{each_message.User.last_name}} -
+        {{each_message.created_at.month}}/{{each_message.created_at.day}}/{{each_message.created_at.year}}
+    </h3><br>
+    <p>{{each_message.content}}</p><br><br>
+
+    {% for each_comment in each_message.comments.all %}
+    <h3>{{each_comment.User.first_name}} {{each_comment.User.last_name}} {{each_comment.created_at}}</h3><br>
+    <p>{{each_comment.content}}</p><br><br>
+    {% endfor %}
+
+    <h3>Post a comment</h3>
+    <form action="postComment/" method="post">
+        {% csrf_token %}
+        <input name="messageid" type="hidden" value="{{each_message.id}}">
+        <textarea name="comment" rows="8" cols="50"></textarea><br>
+        <input type="submit" value="Post a comment"><br><br>
+    </form>
+    {% endfor %}
+</body>
+
+</html>

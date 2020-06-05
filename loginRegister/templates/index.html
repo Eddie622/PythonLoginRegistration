@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Register</title>
+    <style>
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <form action="process/" method="post">
+            {% csrf_token %}
+            <label for="fname">First name:</label>
+            <input type="text" id="fname" name="fname"><br><br>
+            <label for="lname">Last name:</label>
+            <input type="text" id="lname" name="lname"><br><br>
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email"><br><br>
+            <label for="pwd">Password:</label>
+            <input type="password" id="pwd" name="pwd"><br><br>
+            <label for="confirm_pwd">Confirm Password:</label>
+            <input type="password" id="confirm_pwd" name="confirm_pwd"><br><br>
+            <input type="submit" value="Register">
+        </form>
+        <form action="verify/" method="post">
+            {% csrf_token %}
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email"><br><br>
+            <label for="pwd">Password:</label>
+            <input type="password" id="pwd" name="pwd"><br><br>
+            <input type="submit" value="Login">
+        </form>
+    </div>
+</body>
+
+</html>
